@@ -4,18 +4,17 @@ const express=require('express');
 const auth=require('../middleware/auth');
 const admin=require('../middleware/admin');
 const router=express.Router();
+// const asyncMiddleware=require('../middleware/async');
+
 
 router.get('/',async(req,res,next)=>{
-    try{
+      throw new Error("could not get the genres");
       const genre=await Genre.find().sort('name');
       res.send(genre);
-    }
-    catch(ex){
-        next(ex);
-    }
+ 
 });
 
-router.post('/',auth, async(req,res)=>{
+router.post('/',auth,async(req,res)=>{
     const {error}=validate(req.body);
     if(error) return res.status(400).send(error.details[0].message);
 
